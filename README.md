@@ -1,20 +1,5 @@
 # Smart Journaling Project
 
-### Build and run
-1. Go to folder `SmartJournalProject/`
-2. Enter in the terminal
-    ```bash
-    javac -d bin src/Journal/*.java
-    cd bin
-    jar cvfm SmartJournal.jar ../MANIFEST.MF Journal
-    ```
-3. Run the .jar file
-    ```bash
-    java -jar SmartJournal.jar
-    ```
-    Tips: You may meet `Permission denied: connect` error, try adding `-Djava.net.preferIPv4Stack=true` parameter.
-> You need to provide a vaild `.env` file.
-
 ## 1. Project Mission
 
 To design and develop a "Smart Journaling" application that empowers users to improve emotional awareness and foster personal reflection. By leveraging API-driven data enrichment (weather and sentiment analysis), the project aims to provide a smart, accessible platform that helps users understand emotional patterns and promotes mental well-being, aligning with SDG 3 (Good Health and Well-being).
