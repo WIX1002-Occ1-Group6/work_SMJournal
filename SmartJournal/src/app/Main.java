@@ -7,6 +7,7 @@ public class Main {
 
     private static final Scanner input = new Scanner(System.in);
     private static final User user = new User();
+    private static final Welcome welcome = new Welcome();
 
     public static void main(String[] args) {
         File dataFolder = new File("UserData/");
@@ -27,15 +28,13 @@ public class Main {
             case "1":
                 if (user.register()) {
                     boolean exit = true;
-                    // TODO: welcome page
-                    // while (exit) exit = welcomePage();
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName());
                 }
                 break;
             case "2":
                 if (user.login()) {
                     boolean exit = true;
-                    // TODO: welcome page
-                    // while (exit) exit = welcomePage();
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName());
                 }
                 break;
             case "3":
