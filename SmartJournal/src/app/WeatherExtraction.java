@@ -2,11 +2,11 @@
 
 package app;
 
-public class WeatherExtraction {
-    
-    static class API {
+import java.time.LocalDate;
+
+ class WeatherAPI {
         
-        public String get() {
+        public String getTodayWeather() {
            
             return "{\"location\":{\"location_id\":\"St009\",\"location_name\":\"WP Kuala Lumpur\"}," +
                     "\"date\":\"2025-10-11\"," +
@@ -19,43 +19,27 @@ public class WeatherExtraction {
                     "\"max_temp\":34}";
         }
     }
-
-    
-    private API weatherApi;
-
-    
-    public WeatherExtraction() {
-        this.weatherApi = new API();
-    }
-
-    
-    public String extractSummaryForecast() {
-        try {
-            String weatherResponse = weatherApi.get();
-            System.out.println("API return the weather data：" + weatherResponse); 
-            String targetKey = "\"summary_forecast\": \""; 
-            int keyStartIndex = weatherResponse.indexOf(targetKey);
-
-            if (keyStartIndex == -1) {
-                return "Weather summary information not obtained";
-            }
-            int valueStartIndex = keyStartIndex + targetKey.length();
-            int valueEndIndex = weatherResponse.indexOf("\"", valueStartIndex);
-
-            if (valueEndIndex == -1) {
-                return "Weather data format is abnormal, cannot extract";
-            }
-            return weatherResponse.substring(valueStartIndex, valueEndIndex);
-
-        } catch (Exception e) {
-            return "Weather extraction failed：" + e.getMessage();
-        }
-    }
-
+public class WeatherExtraction{
     public static void main(String[] args) {
-       
-        WeatherExtraction weatherExtractor = new WeatherExtraction();
-        String weatherSummary = weatherExtractor.extractSummaryForecast();
-        System.out.println("\nExtracted weather summary：" + weatherSummary);
+        WeatherAPI api = new WeatherAPI();
+        String weatherResponse = api.getTodayWeather();
+        String summaryForecast = extractSummaryForecast(weatherResponse);
+        
+        LocalDate today = LocalDate.now();
+
+        System.out.println("Today's Date: " + today);
+        System.out.println("Today's Weather : " + summaryForecast);
+
+    }
+    public static String extractSummaryForecast(String jsonResponse) {
+        String searchKey = "\"summary_forecast\":\"";
+        int startIndex = jsonResponse.indexOf(searchKey) + searchKey.length();
+        if (startIndex == -1) {
+            return "Weather data not found";
+        }
+        startIndex= startIndex + searchKey.length();
+        int endIndex = jsonResponse.indexOf("\"", startIndex);
+        return jsonResponse.substring(startIndex, endIndex);
     }
 }
+    
