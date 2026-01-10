@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Welcome {
+    Journal journal = new Journal();
     Scanner scanner = new Scanner(System.in);
     User user = new User();
         
@@ -21,8 +22,8 @@ public class Welcome {
         }
     }
 
-    public boolean displayMainMenu(String DisplayName) {
-        System.out.println("\n" + getGreeting() + ", " + DisplayName + "!");
+    public boolean displayMainMenu(String displayName, String email) {
+        System.out.println("\n" + getGreeting() + ", " + displayName + "!");
         System.out.println("--- Main Menu ---");
         System.out.println("1. Create, Edit & View Journals");
         System.out.println("2. View Weekly Mood Summary");
@@ -31,7 +32,7 @@ public class Welcome {
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
-                // TODO: 1
+                journal.datePage(email);
                 break;
             case 2:
                 // TODO

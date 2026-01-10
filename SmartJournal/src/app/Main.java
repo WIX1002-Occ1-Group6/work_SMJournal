@@ -28,13 +28,13 @@ public class Main {
             case "1":
                 if (user.register()) {
                     boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName());
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail());
                 }
                 break;
             case "2":
                 if (user.login()) {
                     boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName());
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail());
                 }
                 break;
             case "3":
