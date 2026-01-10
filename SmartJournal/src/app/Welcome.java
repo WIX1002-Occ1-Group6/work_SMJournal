@@ -3,6 +3,10 @@
 package app;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Welcome {
@@ -16,7 +20,7 @@ public class Welcome {
         if (hour >= 0&&hour<12) {
             return "Good Morning";
         } else if (hour>=12&& hour<17) {
-            return "Good Aftermoon";
+            return "Good Afternoon";
         } else { 
             return "Good Evening";
         }
@@ -37,7 +41,8 @@ public class Welcome {
                 while (exit == false) exit = journalDatePage(email);
                 break;
             case 2:
-                // TODO
+                journal.clearScreen();
+                viewWeeklyMoodSummary(email);
                 break;
             case 3:
                 journal.clearScreen();
@@ -62,5 +67,33 @@ public class Welcome {
             while (exit == false) exit = journal.journalPage(journalDateNum, email);
         }
         return journalDateNum == 0;
+    }
+        
+    private void viewWeeklyMoodSummary(String email) {
+        System.out.println("=====================================");
+        System.out.println("        WEEKLY MOOD SUMMARY        ");
+        System.out.println("=====================================\n");
+        
+        
+        Map<String, String> weeklyMood = journal.getWeeklyMoodData(email);
+        if (weeklyMood.isEmpty()) {
+            System.out.println("  No journal entries found for this week!");
+            System.out.println("  Write a journal to track your mood :)");
+        } 
+        else {
+            List<String> sortedDates = new ArrayList<>(weeklyMood.keySet());
+            Collections.sort(sortedDates);
+            
+            System.out.println("  Date          |  Your Mood");
+            System.out.println("  ---------------------------");
+            for (String date : sortedDates) {
+                String mood = weeklyMood.get(date);
+                System.out.printf("  %s   |  %s\n", date, mood);
+            }
+        }
+        System.out.println("\n=====================================");
+        System.out.print("  Press Enter to return to Main Menu \n> ");
+        scanner.nextLine();
+        scanner.nextLine();
     }
 }

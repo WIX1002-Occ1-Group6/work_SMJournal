@@ -222,6 +222,47 @@ public class Journal {
         }
         return eng;
     }
+    
+    public Map<String, String> getAllMoodData(String email) {
+        
+        this.journalFile = "UserData/" + email + "_journal.txt";
+        Map<String, List<String>> journalMap = new HashMap<>();
+        
+        readData(journalMap);
+        
+       
+        Map<String, String> moodMap = new HashMap<>();
+        for (String date : journalMap.keySet()) {
+            List<String> journalContent = journalMap.get(date);
+            String mood = journalContent.get(1); 
+            moodMap.put(date, mood);
+        }
+        return moodMap;
+    }
+
+    
+    public Map<String, String> getWeeklyMoodData(String email) {
+        Map<String, String> allMoodMap = getAllMoodData(email);
+        Map<String, String> weeklyMoodMap = new HashMap<>();
+        
+        
+        for (String dateStr : allMoodMap.keySet()) {
+            LocalDate journalDate = LocalDate.parse(dateStr); 
+           
+            if (isDateInCurrentWeek(journalDate)) {
+                weeklyMoodMap.put(dateStr, allMoodMap.get(dateStr));
+            }
+        }
+        return weeklyMoodMap;
+    }
+
+    
+    private boolean isDateInCurrentWeek(LocalDate date) {
+        LocalDate startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1); 
+        LocalDate endOfWeek = startOfWeek.plusDays(6); 
+        
+        return !date.isBefore(startOfWeek) && !date.isAfter(endOfWeek);
+    }
     void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
