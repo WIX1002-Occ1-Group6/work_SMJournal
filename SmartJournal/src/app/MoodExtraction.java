@@ -20,7 +20,7 @@ public class MoodExtraction{
             String bearerToken = env.get("BEARER_TOKEN");
             if (bearerToken == null || bearerToken.isEmpty()) {
                 System.err.println("Error: BEARER_TOKEN is not set in the environment.");
-                return "Failed to get Mood";
+                return postResponse;
             }
 
             // Format JSON body
