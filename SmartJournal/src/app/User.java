@@ -19,7 +19,6 @@ import java.util.Scanner;
 public class User {
     
     private String email, displayName;
-    private static final Scanner input = new Scanner(System.in);
     private static final String DATAFILE = "UserData/UserData.txt";
 
     public String getDisplayName() {
@@ -30,16 +29,21 @@ public class User {
         return this.email;
     }
 
-    public boolean register() {
-        try (PrintWriter outputStream = new PrintWriter(new FileOutputStream(DATAFILE,true));) {
+    public boolean register(Scanner input) {
+        try (
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream(DATAFILE,true));
+        ) {
             Map<String, List<String>> userMap = new HashMap<>();
             readData(userMap);
             List<String> emailList = new ArrayList<>(userMap.keySet());
 
-            do {
-                System.out.print("Enter email: ");
-                this.email = input.nextLine();
-            } while (!this.email.contains("@"));
+            System.out.print("Enter email: ");
+            this.email = input.nextLine();
+            if (!this.email.contains("@")) {
+                clearScreen();
+                System.out.println("Invaild email.");
+                return false;
+            }
 
             if (emailList.contains(this.email)) {
                 clearScreen();
@@ -73,8 +77,10 @@ public class User {
         }
     }
 
-    public boolean login() {
-        try (PrintWriter outputStream = new PrintWriter(new FileOutputStream(DATAFILE,true));) {
+    public boolean login(Scanner input) {
+        try (
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream(DATAFILE,true));
+        ) {
             outputStream.close();
             Map<String, List<String>> userMap = new HashMap<>();
             readData(userMap);

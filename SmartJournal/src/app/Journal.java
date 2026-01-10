@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,10 +18,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Journal {
-    private static final Scanner input = new Scanner(System.in);
-    private static final ZoneId timezone = ZoneId.of("Asia/Kuala_Lumpur");
-    private static final ZonedDateTime now = ZonedDateTime.now(timezone);
-    private static final LocalDate today = now.toLocalDate();
+    private static final LocalDate today = LocalDate.now();
 
     private String date = "";
     private int countJournal = 1;
@@ -40,9 +35,9 @@ public class Journal {
         System.out.println("\n=== Journal Dates ===");
         System.out.println("0. Return to Main Menu");
         for (int i = 0; i < dateList.size(); i++) {
-            String date = dateList.get(i);
-            System.out.print(i + 1 + ". " + date);
-            if (date.equals(today.toString())) {
+            String dateToGet = dateList.get(i);
+            System.out.print(i + 1 + ". " + dateToGet);
+            if (dateToGet.equals(today.toString())) {
                 System.out.println(" (Today)");
             } else System.out.println();
         }
@@ -53,7 +48,7 @@ public class Journal {
         return this.countJournal;
     }
 
-    public boolean journalPage(int journalDateNum, String email) {
+    public boolean journalPage(int journalDateNum, String email, Scanner input) {
         WeatherExtraction weatherExtraction = new WeatherExtraction();
         MoodExtraction moodExtraction = new MoodExtraction();
         Map<String, List<String>> journalMap = new HashMap<>();
@@ -62,10 +57,11 @@ public class Journal {
         Collections.sort(dateList);
         if (journalDateNum <= journalMap.size()) this.date = dateList.get(journalDateNum - 1);
 
-        try (PrintWriter outputStream = new PrintWriter(new FileOutputStream(this.journalFile,true));) {
+        try (PrintWriter outputStream = new PrintWriter(new FileOutputStream(this.journalFile,true))) {
             if (this.isTodayNoJournal && journalDateNum == this.countJournal) {
                 String entryText = "";
                 do {
+                    clearScreen();
                     System.out.println("\nEnter your journal entry for " + today + ": ");
                     System.out.print("> ");
                     entryText = input.nextLine();
@@ -85,7 +81,7 @@ public class Journal {
                 System.out.println("Journal saved successfully!");
                 this.isTodayNoJournal = false;
                 outputStream.close();
-                journalPage(journalDateNum, email);
+                journalPage(journalDateNum, email, input);
             } else if (journalDateNum == this.countJournal) {
                 System.out.println("\n=== Journal Entry for " + this.date + " ===");
                 System.out.println("Would you like to:");
@@ -97,7 +93,7 @@ public class Journal {
                 List<String> journalList = journalMap.get(this.date);
                 String journalEditChoice = input.nextLine();
                 switch (journalEditChoice) {
-                    case "1":
+                    case "1" -> {
                         clearScreen();
                         System.out.println("\n=== Journal Entry for " + this.date + " ===");
                         System.out.println("Weather: " + journalList.get(0));
@@ -106,18 +102,19 @@ public class Journal {
                         System.out.print("\nPress Enter to go back.\n> ");
                         input.nextLine();
                         clearScreen();
-                        break;
-                    case "2":
+                    }
+                    case "2" -> {
                         clearScreen();
-                        editJournal();
-                        break;
-                    case "3":
+                        editJournal(input);
+                    }
+                    case "3" -> {
                         clearScreen();
                         return true;
-                    default:
+                    }
+                    default -> {
                         clearScreen();
                         System.out.println("\nInvaild input.");
-                        break;
+                    }
                 }
             } else {
                 List<String> journalList = journalMap.get(this.date);
@@ -136,13 +133,13 @@ public class Journal {
         return false;
     }
 
-    public void editJournal() {
+    public void editJournal(Scanner input) {
         // Read & write n-1 line to temp file, then add 1 new line in temp, then rewrite temp file into original file
         File originalFile = new File(this.journalFile);
         File tempFile = new File("UserData/temp.txt");
         try (
-                Scanner inputStream = new Scanner(new FileInputStream(originalFile));
-                PrintWriter outputStream = new PrintWriter(new FileOutputStream(tempFile));
+            Scanner inputStream = new Scanner(new FileInputStream(originalFile));
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream(tempFile));
         ) {
             String lineBuffer = inputStream.nextLine();
             while (inputStream.hasNextLine()) {
@@ -161,8 +158,8 @@ public class Journal {
             System.out.println("Problem with file!!");
         }
         try (
-                Scanner inputStream = new Scanner(new FileInputStream(tempFile));
-                PrintWriter outputStream = new PrintWriter(new FileOutputStream(originalFile));
+            Scanner inputStream = new Scanner(new FileInputStream(tempFile));
+            PrintWriter outputStream = new PrintWriter(new FileOutputStream(originalFile));
         ) {
             while (inputStream.hasNextLine()) {
                 outputStream.println(inputStream.nextLine());
@@ -203,7 +200,7 @@ public class Journal {
         else return false;
     }
     private static String weatherInEng(String malay) {
-        String eng = null;
+        String eng;
         switch (malay) {
             case "Berjerebu" -> eng = "Hazy";
             case "Tiada hujan" -> eng = "No rain";
@@ -232,10 +229,10 @@ public class Journal {
         
        
         Map<String, String> moodMap = new HashMap<>();
-        for (String date : journalMap.keySet()) {
-            List<String> journalContent = journalMap.get(date);
+        for (String dateToGet : journalMap.keySet()) {
+            List<String> journalContent = journalMap.get(dateToGet);
             String mood = journalContent.get(1); 
-            moodMap.put(date, mood);
+            moodMap.put(dateToGet, mood);
         }
         return moodMap;
     }

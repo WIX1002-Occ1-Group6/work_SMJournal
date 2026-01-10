@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-
-    private static final Scanner input = new Scanner(System.in);
     private static final User user = new User();
     private static final Welcome welcome = new Welcome();
+    private static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         File dataFolder = new File("UserData/");
@@ -23,27 +22,29 @@ public class Main {
         System.out.println("2. Login");
         System.out.println("3. Exit");
         System.out.print("\n> ");
-
-        switch (input.nextLine()) {
-            case "1":
-                if (user.register()) {
+        String choice;
+        choice = input.nextLine();
+        switch (choice) {
+            case "1" -> {
+                if (user.register(input)) {
                     boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail());
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
                 }
-                break;
-            case "2":
-                if (user.login()) {
+            }
+            case "2" -> {
+                if (user.login(input)) {
                     boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail());
+                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
                 }
-                break;
-            case "3":
+            }
+            case "3" -> {
                 System.out.println("Goodbye!");
                 return false;
-            default:
+            }
+            default -> {
                 clearScreen();
                 System.out.println("Invaild input!");
-                break;
+            }
         }
         return true;
     }

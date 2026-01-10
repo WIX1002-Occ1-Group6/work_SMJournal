@@ -7,7 +7,7 @@ import java.util.Map;
 public class MoodExtraction{
     public String getMood(String entryText) {
         API api = new API();
-        String postResponse = null;
+        String postResponse = "\"label\":\"Failed to get Mood\"";
         // Load environment variables from .env file (custom loader)
         Map<String, String> env = EnvLoader.loadEnv(".env");
 

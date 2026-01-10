@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 
 public class API {
 
@@ -88,38 +87,38 @@ public class API {
     }
 
     // Example usage
-    public static void main(String[] args) {
-        API api = new API();
+    // public static void main(String[] args) {
+    //     API api = new API();
 
-        // Load environment variables from .env file (custom loader)
-        Map<String, String> env = EnvLoader.loadEnv(".env");
+    //     // Load environment variables from .env file (custom loader)
+    //     Map<String, String> env = EnvLoader.loadEnv(".env");
 
-        try {
-            // --- Example GET request: Fetch latest weather forecast for Kuala Lumpur ---
-            String getUrl = "https://api.data.gov.my/weather/forecast/?contains=WP%20Kuala%20Lumpur@location__location_name&sort=date&limit=1";
-            String getResponse = api.get(getUrl);
-            System.out.println("GET Response:\n" + getResponse);
+    //     try {
+    //         // --- Example GET request: Fetch latest weather forecast for Kuala Lumpur ---
+    //         String getUrl = "https://api.data.gov.my/weather/forecast/?contains=WP%20Kuala%20Lumpur@location__location_name&sort=date&limit=1";
+    //         String getResponse = api.get(getUrl);
+    //         System.out.println("GET Response:\n" + getResponse);
 
-            // --- Example POST request: Perform sentiment analysis using HuggingFace model ---
-            String journalInput = "I spent my free time with my friends today. We had a great time at the park and enjoyed the sunny weather.";
-            String postUrl = "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english";
+    //         // --- Example POST request: Perform sentiment analysis using HuggingFace model ---
+    //         String journalInput = "I spent my free time with my friends today. We had a great time at the park and enjoyed the sunny weather.";
+    //         String postUrl = "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english";
 
-            // Safely get bearer token
-            String bearerToken = env.get("BEARER_TOKEN");
-            if (bearerToken == null || bearerToken.isEmpty()) {
-                System.err.println("Error: BEARER_TOKEN is not set in the environment.");
-                return;
-            }
+    //         // Safely get bearer token
+    //         String bearerToken = env.get("BEARER_TOKEN");
+    //         if (bearerToken == null || bearerToken.isEmpty()) {
+    //             System.err.println("Error: BEARER_TOKEN is not set in the environment.");
+    //             return;
+    //         }
 
-            // Format JSON body
-            String jsonBody = "{\"inputs\": \"" + journalInput + "\"}";
+    //         // Format JSON body
+    //         String jsonBody = "{\"inputs\": \"" + journalInput + "\"}";
 
-            // Call POST
-            String postResponse = api.post(postUrl, bearerToken, jsonBody);
-            System.out.println("\nSentiment Analysis Response:\n" + postResponse);
+    //         // Call POST
+    //         String postResponse = api.post(postUrl, bearerToken, jsonBody);
+    //         System.out.println("\nSentiment Analysis Response:\n" + postResponse);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

@@ -6,7 +6,7 @@ public class WeatherExtraction{
 
     public String getWeather() {
         API api = new API();
-        String getResponse = "Failed to get Weather";
+        String getResponse = "\"summary_forecast\":\"Failed to get Weather\"";
         try {
             // --- Example GET request: Fetch latest weather forecast for Kuala Lumpur ---
             String getUrl = "https://api.data.gov.my/weather/forecast/?contains=WP%20Kuala%20Lumpur@location__location_name&sort=date&limit=1";
@@ -24,7 +24,6 @@ public class WeatherExtraction{
         if (startIndex == -1) {
             return "Weather data not found";
         }
-        startIndex= startIndex + searchKey.length();
         int endIndex = jsonResponse.indexOf("\"", startIndex);
         return jsonResponse.substring(startIndex, endIndex);
     }
