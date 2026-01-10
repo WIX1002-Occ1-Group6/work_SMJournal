@@ -53,7 +53,7 @@ public class Journal {
         return this.countJournal;
     }
 
-    public void journalPage(int journalDateNum) {
+    public boolean journalPage(int journalDateNum, String email) {
         WeatherExtraction weatherExtraction = new WeatherExtraction();
         MoodExtraction moodExtraction = new MoodExtraction();
         Map<String, List<String>> journalMap = new HashMap<>();
@@ -85,7 +85,7 @@ public class Journal {
                 System.out.println("Journal saved successfully!");
                 this.isTodayNoJournal = false;
                 outputStream.close();
-                journalPage(journalDateNum);
+                journalPage(journalDateNum, email);
             } else if (journalDateNum == this.countJournal) {
                 System.out.println("\n=== Journal Entry for " + this.date + " ===");
                 System.out.println("Would you like to:");
@@ -98,6 +98,7 @@ public class Journal {
                 String journalEditChoice = input.nextLine();
                 switch (journalEditChoice) {
                     case "1":
+                        clearScreen();
                         System.out.println("\n=== Journal Entry for " + this.date + " ===");
                         System.out.println("Weather: " + journalList.get(0));
                         System.out.println("Mood: " + journalList.get(1));
@@ -107,15 +108,15 @@ public class Journal {
                         clearScreen();
                         break;
                     case "2":
+                        clearScreen();
                         editJournal();
                         break;
                     case "3":
                         clearScreen();
-                        break;
+                        return true;
                     default:
                         clearScreen();
                         System.out.println("\nInvaild input.");
-                        journalPage(journalDateNum);
                         break;
                 }
             } else {
@@ -132,6 +133,7 @@ public class Journal {
         catch (Exception e) {
             System.out.println("Problem with file!!");
         }
+        return false;
     }
 
     public void editJournal() {
@@ -220,7 +222,7 @@ public class Journal {
         }
         return eng;
     }
-    private static void clearScreen() {
+    void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
