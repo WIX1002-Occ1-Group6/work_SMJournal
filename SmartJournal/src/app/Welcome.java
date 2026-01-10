@@ -73,11 +73,11 @@ public class Welcome {
                 journalDateNum = -1;
             }
         }
+        journal.clearScreen();
         if (journalDateNum > 0) {
             boolean exit = false;
             while (exit == false) exit = journal.journalPage(journalDateNum, email, input);
         }
-        journal.clearScreen();
         return journalDateNum == 0;
     }
         
