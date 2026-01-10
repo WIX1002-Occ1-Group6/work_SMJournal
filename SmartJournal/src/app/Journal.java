@@ -71,9 +71,9 @@ public class Journal {
                     entryText = input.nextLine();
                 } while (checkNoInput(entryText));
                 System.out.println("Processing...");
-                //String jsonMood = getMood(entryText);
+                String jsonMood = moodExtraction.getMood(entryText);
                 //String jsonWeather = getWeather();
-                String mood = "aaa";//moodExtraction.extractSummaryForecast(jsonMood);
+                String mood = moodExtraction.extractSummaryForecast(jsonMood);
                 String weather = "bbb";//weatherInEng(weatherExtraction.extractSummaryForecast(jsonWeather));
 
                 outputStream.println("\n===\n===\n");
