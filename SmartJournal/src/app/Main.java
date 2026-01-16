@@ -12,8 +12,8 @@ public class Main {
         File dataFolder = new File("UserData/");
         if (!dataFolder.exists()) dataFolder.mkdir();
         clearScreen();
-        boolean exit = true;
-        while (exit) exit = loginPage();
+        boolean exit = false;
+        while (exit == false) exit = loginPage();
     }
 
     private static boolean loginPage() {
@@ -27,26 +27,26 @@ public class Main {
         switch (choice) {
             case "1" -> {
                 if (user.register(input)) {
-                    boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
+                    boolean exit = false;
+                    while (exit == false) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
                 }
             }
             case "2" -> {
                 if (user.login(input)) {
-                    boolean exit = true;
-                    while (exit) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
+                    boolean exit = false;
+                    while (exit == false) exit = welcome.displayMainMenu(user.getDisplayName(), user.getEmail(), input);
                 }
             }
             case "3" -> {
                 System.out.println("Goodbye!");
-                return false;
+                return true;
             }
             default -> {
                 clearScreen();
                 System.out.println("Invaild input!");
             }
         }
-        return true;
+        return false;
     }
 
     private static void clearScreen() {

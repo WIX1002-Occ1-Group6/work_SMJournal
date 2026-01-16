@@ -50,12 +50,12 @@ public class Welcome {
             }
             case 3 -> {
                 journal.clearScreen();
-                return false;
+                return true;
             }
             default -> {
             }
         }
-        return true;
+        return false;
     }
 
     private boolean journalDatePage(String email, Scanner input) {
