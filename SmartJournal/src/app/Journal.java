@@ -125,6 +125,7 @@ public class Journal {
                 System.out.print("\nPress Enter to go back.\n> ");
                 input.nextLine();
                 clearScreen();
+                return true;
             }
         }
         catch (Exception e) {
