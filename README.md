@@ -81,4 +81,5 @@ These objectives represent future enhancements to improve the project's usabilit
 
 ### ✅Expanding Functionalities on Existing Features
 
+
 - ✅Create a mapping rule to map different possible values of the `weather_forecast` field to simpler English terms.
