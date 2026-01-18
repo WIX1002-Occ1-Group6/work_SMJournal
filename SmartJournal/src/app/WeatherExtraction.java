@@ -17,7 +17,18 @@ public class WeatherExtraction{
         }
         return getResponse;
     }
+/*public class WeatherExtraction{
+    public static void main(String[] args) {
+        WeatherAPI api = new WeatherAPI();
+        String weatherResponse = api.getTodayWeather();
+        String summaryForecast = extractSummaryForecast(weatherResponse);
+        
+        LocalDate today = LocalDate.now();
 
+        System.out.println("Today's Date: " + today);
+        System.out.println("Today's Weather : " + summaryForecast);
+
+    }  */
     public String extractSummaryForecast(String jsonResponse) {
         String searchKey = "\"summary_forecast\":\"";
         int startIndex = jsonResponse.indexOf(searchKey) + searchKey.length();
